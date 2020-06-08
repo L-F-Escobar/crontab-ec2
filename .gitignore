@@ -12,7 +12,7 @@ cds.egg-info/
 .vscode
 venv
 credentials.json
-
+node_modules/
 token.pickle
 
 cronlog.txt

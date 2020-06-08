@@ -1,0 +1,26 @@
+{
+  "name": "crontab-ec2",
+  "version": "1.0.0",
+  "description": "crontest-ec2",
+  "main": "index.js",
+  "dependencies": {
+    "serverless-deployment-bucket": "^1.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "deploy": "STAGE=${STAGE:-dev} export $(cat .env) && serverless deploy -v",
+    "deploy:func": "export $(cat .env) && serverless deploy function -f cron",
+    "test": "STAGE=${STAGE:-dev} export $(cat .env) && echo ${REGION} ${DEPLOYMENT_BUCKET} ${STAGE}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LEscobar-Driver/crontab-ec2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LEscobar-Driver/crontab-ec2/issues"
+  },
+  "homepage": "https://github.com/LEscobar-Driver/crontab-ec2#readme"
+}

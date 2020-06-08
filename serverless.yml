@@ -1,0 +1,39 @@
+service: ${env:SERVICE}
+app: ${env:SERVICE}
+
+plugins:
+  - serverless-deployment-bucket
+
+provider:
+  deploymentBucket:
+    name: ${env:DEPLOYMENT_BUCKET}
+  name: aws
+  stage: ${env:STAGE}
+  region: ${env:REGION}
+  runtime: python3.7
+  environment:
+    REGION: ${env:REGION}
+    STAGE: ${env:STAGE}
+
+functions:
+  cron:
+    individually: true
+    exclude:
+      - venv/**
+      - node_modules/**
+      - src/**
+      - .env
+      - .gitignore
+      - Makefile
+      - package-lock.json
+      - package.json
+      - requirements.txt
+      - README.md
+    include:
+      - src/cron.py
+      - src/log.py
+    handler: src/cron.handle
+    events:
+    - schedule:
+        rate: cron(* * * * ? *)
+        enabled: true
