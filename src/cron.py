@@ -93,7 +93,7 @@
 # sudo crontab -u ec2-user -e
 
 
-from log import get_logger
+from src.log import get_logger
 from datetime import datetime
 
 log = get_logger(
@@ -101,7 +101,7 @@ log = get_logger(
     "'[%(levelname)s] [%(name)s] [%(asctime)s] [%(funcName)s::%(lineno)d] [%(message)s]'",
 )
 
-def run(event=None, context=None):
+def handle(event=None, context=None):
     log.info(f"Engine is running. Event --> {event}.")
 
     now = datetime.now()

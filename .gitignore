@@ -16,3 +16,5 @@ node_modules/
 token.pickle
 
 cronlog.txt
+
+.serverless/

@@ -17,23 +17,21 @@ provider:
 
 functions:
   cron:
-    individually: true
-    exclude:
-      - venv/**
-      - node_modules/**
-      - src/**
-      - .env
-      - .gitignore
-      - Makefile
-      - package-lock.json
-      - package.json
-      - requirements.txt
-      - README.md
-    include:
-      - src/cron.py
-      - src/log.py
+    package:
+      individually: true
+      exclude:
+        - venv/**
+        - node_modules/**
+        - .env
+        - Makefile
+        - package-lock.json
+        - package.json
+        - requirements.txt
+        - README.md
     handler: src/cron.handle
     events:
     - schedule:
-        rate: cron(* * * * ? *)
+        name: crontab-test
+        description: 'running scheduled cron on lambda'
+        rate: cron(*/15 * * * ? *)
         enabled: true
