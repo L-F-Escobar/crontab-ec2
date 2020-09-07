@@ -3,6 +3,12 @@ app: ${env:SERVICE}
 
 plugins:
   - serverless-deployment-bucket
+  - serverless-python-requirements
+  
+custom:
+  secrets: ${file(secrets.json)}
+  pythonRequirements:
+    layer: true
 
 provider:
   deploymentBucket:
@@ -14,21 +20,34 @@ provider:
   environment:
     REGION: ${env:REGION}
     STAGE: ${env:STAGE}
+    TOKEN: ${self:custom.secrets.token}
+    EXPIRY: ${self:custom.secrets.expiry}
+    REFRESH_TOKEN: ${self:custom.secrets._refresh_token}
+    ID_TOKEN: ${self:custom.secrets._id_token}
+    SCOPES: ${self:custom.secrets._scopes}
+    TOKEN_URI: ${self:custom.secrets._token_uri}
+    CLIENT_ID: ${self:custom.secrets._client_id}
+    CLIENT_SECRET: ${self:custom.secrets._client_secret}
+    QUOTA_PROJECT_ID: ${self:custom.secrets._quota_project_id}
+
+package:
+  exclude:
+      - secrets.json
+      - .env
+      - venv/**
+      - node_modules/**
+      - Makefile
+      - package-lock.json
+      - package.json
+      - requirements.txt
 
 functions:
   cron:
     package:
       individually: true
-      exclude:
-        - venv/**
-        - node_modules/**
-        - .env
-        - Makefile
-        - package-lock.json
-        - package.json
-        - requirements.txt
-        - README.md
     handler: src/cron.handle
+    layers:
+      - { Ref: PythonRequirementsLambdaLayer }
     events:
     - schedule:
         name: crontab-test

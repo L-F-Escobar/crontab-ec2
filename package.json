@@ -4,13 +4,14 @@
   "description": "crontest-ec2",
   "main": "index.js",
   "dependencies": {
-    "serverless-deployment-bucket": "^1.1.2"
+    "serverless-deployment-bucket": "^1.1.2",
+    "serverless-python-requirements": "^5.1.0"
   },
   "devDependencies": {},
   "scripts": {
-    "deploy": "STAGE=${STAGE:-dev} export $(cat .env) && serverless deploy -v",
+    "deploy": "export $(cat .env) && STAGE=${STAGE}-dev && serverless deploy -v",
     "deploy:func": "export $(cat .env) && serverless deploy function -f cron",
-    "test": "STAGE=${STAGE:-dev} export $(cat .env) && echo ${REGION} ${DEPLOYMENT_BUCKET} ${STAGE}"
+    "test": "export $(cat .env) && STAGE=${STAGE}-dev && echo ${REGION} ${DEPLOYMENT_BUCKET} ${STAGE}"
   },
   "repository": {
     "type": "git",
